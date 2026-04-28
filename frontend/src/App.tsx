@@ -4,6 +4,7 @@ import { Link, NavLink as RouterNavLink, Navigate, Outlet, Route, Routes } from 
 import { AdminBookingsPage } from './pages/AdminBookingsPage'
 import { AdminEventTypesPage } from './pages/AdminEventTypesPage'
 import { AdminPage } from './pages/AdminPage'
+import { AdminWorkingHoursPage } from './pages/AdminWorkingHoursPage'
 import { GuestBookingPage } from './pages/GuestBookingPage'
 
 function PublicLayout() {
@@ -71,6 +72,12 @@ function AdminLayout() {
           >
             Предстоящие встречи
           </RouterNavLink>
+          <RouterNavLink
+            to="/admin/working-hours"
+            className={({ isActive }) => (isActive ? 'active' : undefined)}
+          >
+            Рабочее время
+          </RouterNavLink>
         </nav>
       </AppShell.Navbar>
 
@@ -93,6 +100,7 @@ function App() {
         <Route index element={<AdminPage />} />
         <Route path="/admin/event-types" element={<AdminEventTypesPage />} />
         <Route path="/admin/bookings" element={<AdminBookingsPage />} />
+        <Route path="/admin/working-hours" element={<AdminWorkingHoursPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/booking" replace />} />

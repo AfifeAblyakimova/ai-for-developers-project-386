@@ -5,6 +5,7 @@ import type {
   EventType,
   Slot,
   UpdateEventTypeRequest,
+  WorkingHours,
 } from './types'
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
@@ -97,6 +98,14 @@ export const api = {
 
   listSlots: (query: { eventTypeId: string; from?: string; to?: string }) =>
     request<Slot[]>(withQuery('/slots', query)),
+
+  getWorkingHours: () => request<WorkingHours>('/working-hours'),
+
+  updateWorkingHours: (body: WorkingHours) =>
+    request<WorkingHours>('/working-hours', {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    }),
 
   listBookings: (query?: { from?: string; to?: string }) =>
     request<Booking[]>(withQuery('/bookings', query)),

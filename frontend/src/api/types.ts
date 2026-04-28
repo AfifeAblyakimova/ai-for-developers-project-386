@@ -21,6 +21,25 @@ export type Slot = {
   isAvailable: boolean
 }
 
+export type WeeklyWorkingDay = {
+  dayOfWeek: number
+  isWorking: boolean
+  startTime?: string
+  endTime?: string
+}
+
+export type WorkingHoursException = {
+  date: string
+  isWorking: boolean
+  startTime?: string
+  endTime?: string
+}
+
+export type WorkingHours = {
+  weeklySchedule: WeeklyWorkingDay[]
+  exceptions: WorkingHoursException[]
+}
+
 export type CreateEventTypeRequest = {
   name: string
   description?: string

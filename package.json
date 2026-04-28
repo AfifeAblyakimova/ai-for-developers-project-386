@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "openapi": "tsp compile . --emit @typespec/openapi3 --output-dir ./tsp-output",
     "mock:api": "npm run openapi && prism mock ./tsp-output/@typespec/openapi3/openapi.yaml --host 127.0.0.1 --port 3000",
+    "backend:dev": "node backend/server.js",
     "frontend:dev": "npm --prefix frontend run dev"
   },
   "keywords": [],
@@ -21,5 +22,9 @@
   "overrides": {
     "@stoplight/prism-core": "5.8.0",
     "@stoplight/prism-http-server": "5.12.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
   }
 }

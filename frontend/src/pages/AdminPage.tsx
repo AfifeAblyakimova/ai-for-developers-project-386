@@ -13,7 +13,7 @@ export function AdminPage() {
           </Text>
         </Stack>
 
-        <SimpleGrid cols={{ base: 1, sm: 2 }}>
+        <SimpleGrid cols={{ base: 1, sm: 3 }}>
           <Card withBorder radius="lg" p="lg">
             <Stack>
               <Title order={2}>Типы событий</Title>
@@ -30,6 +30,16 @@ export function AdminPage() {
               <Text c="dimmed">Единый список всех будущих бронирований по календарю.</Text>
               <Button component={Link} to="/admin/bookings">
                 Открыть встречи
+              </Button>
+            </Stack>
+          </Card>
+
+          <Card withBorder radius="lg" p="lg">
+            <Stack>
+              <Title order={2}>Рабочее время</Title>
+              <Text c="dimmed">Настройка недельного расписания и исключений по датам.</Text>
+              <Button component={Link} to="/admin/working-hours">
+                Настроить время
               </Button>
             </Stack>
           </Card>

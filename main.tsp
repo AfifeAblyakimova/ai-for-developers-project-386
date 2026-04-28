@@ -12,6 +12,10 @@ namespace Calendar;
 @maxValue(1440)
 scalar DurationMinutes extends int32;
 
+@minValue(1)
+@maxValue(7)
+scalar DayOfWeek extends int32;
+
 @example(#{
   id: "meeting-15",
   name: "Встреча на 15 минут",
@@ -39,6 +43,25 @@ model Slot {
   start: utcDateTime;
   end: utcDateTime;
   isAvailable: boolean;
+}
+
+model WeeklyWorkingDay {
+  dayOfWeek: DayOfWeek;
+  isWorking: boolean;
+  startTime?: string;
+  endTime?: string;
+}
+
+model WorkingHoursException {
+  date: string;
+  isWorking: boolean;
+  startTime?: string;
+  endTime?: string;
+}
+
+model WorkingHours {
+  weeklySchedule: WeeklyWorkingDay[];
+  exceptions: WorkingHoursException[];
 }
 
 model CreateEventTypeRequest {
@@ -105,6 +128,15 @@ interface SlotsApi {
     @query from?: utcDateTime,
     @query to?: utcDateTime
   ): Slot[];
+}
+
+@route("/working-hours")
+interface WorkingHoursApi {
+  @get
+  get(): WorkingHours;
+
+  @put
+  update(@body body: WorkingHours): WorkingHours;
 }
 
 @route("/bookings")
