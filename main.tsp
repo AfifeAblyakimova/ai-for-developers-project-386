@@ -3,16 +3,26 @@ import "@typespec/openapi3";
 
 using Http;
 
-@service({
+@service(#{
   title: "Calendar Booking API"
 })
 namespace Calendar;
 
+@minValue(1)
+@maxValue(1440)
+scalar DurationMinutes extends int32;
+
+@example(#{
+  id: "meeting-15",
+  name: "Встреча на 15 минут",
+  description: "Короткая встреча для быстрого созвона.",
+  durationMinutes: 15
+})
 model EventType {
   id: string;
   name: string;
   description?: string;
-  durationMinutes: int32;
+  durationMinutes: DurationMinutes;
 }
 
 model Booking {
@@ -34,13 +44,13 @@ model Slot {
 model CreateEventTypeRequest {
   name: string;
   description?: string;
-  durationMinutes: int32;
+  durationMinutes: DurationMinutes;
 }
 
 model UpdateEventTypeRequest {
   name?: string;
   description?: string;
-  durationMinutes?: int32;
+  durationMinutes?: DurationMinutes;
 }
 
 model CreateBookingRequest {
@@ -52,19 +62,38 @@ model CreateBookingRequest {
 
 @route("/event-types")
 interface EventTypesApi {
+  @opExample(#{
+    returnType: #[
+      #{
+        id: "meeting-15",
+        name: "Встреча на 15 минут",
+        description: "Короткая встреча для быстрого созвона.",
+        durationMinutes: 15
+      },
+      #{
+        id: "meeting-30",
+        name: "Встреча на 30 минут",
+        description: "Стандартная встреча для обсуждения задачи.",
+        durationMinutes: 30
+      }
+    ]
+  })
   @get
   list(): EventType[];
 
   @post
   create(@body body: CreateEventTypeRequest): EventType;
 
-  @get("/{id}")
+  @route("/{id}")
+  @get
   get(@path id: string): EventType;
 
-  @patch("/{id}")
+  @route("/{id}")
+  @patch
   update(@path id: string, @body body: UpdateEventTypeRequest): EventType;
 
-  @delete("/{id}")
+  @route("/{id}")
+  @delete
   delete(@path id: string): void;
 }
 
