@@ -1,8 +1,12 @@
+const fs = require('fs')
+const path = require('path')
 const express = require('express')
 const cors = require('cors')
 
 const app = express()
 const port = Number(process.env.PORT ?? 3000)
+const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist')
+const frontendIndexPath = path.join(frontendDistPath, 'index.html')
 
 app.use(cors())
 app.use(express.json())
@@ -581,6 +585,14 @@ app.post('/bookings', (request, response) => {
 
   return response.status(201).json(booking)
 })
+
+if (fs.existsSync(frontendIndexPath)) {
+  app.use(express.static(frontendDistPath))
+
+  app.get(/.*/, (_request, response) => {
+    response.sendFile(frontendIndexPath)
+  })
+}
 
 app.use((_request, response) => {
   sendError(response, 404, 'Маршрут не найден.')
